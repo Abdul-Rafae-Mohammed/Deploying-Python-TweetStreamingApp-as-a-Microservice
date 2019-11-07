@@ -3,7 +3,7 @@ FROM oraclelinux:7-slim
 MAINTAINER oracle
 
 # Install from yum
-RUN echo "Installing EPEL, python-pip, unzip, libaio, oci_cli, requests, cx_Oracle"  && \
+RUN echo "Installing EPEL, python-pip, unzip, libaio, oci_cli, requests"  && \
     yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
     yum -y install python && \
     yum -y install python-pip &&\
