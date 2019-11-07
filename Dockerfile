@@ -13,38 +13,12 @@ RUN echo "Installing EPEL, python-pip, unzip, libaio, oci_cli, requests, cx_Orac
     yum -y install git && \
     yum -y install nano && \
     yum clean all && \
-    echo 'installing oci_cli, requests, cx_Oracle' && \
-    pip install oci_cli requests cx_Oracle
+    echo 'installing oci_cli' && \
+    pip install oci_cli
 
 # install from pip
-RUN echo 'installing oci_cli, requests, cx_Oracle' && \
-    pip install oci_cli requests cx_Oracle tweepy simplejson textblob nltk && \
-    python -m nltk.downloader stopwords
-
-# Setup oracle instant client and sqlcl
-ENV SQLPLUS oracle-instantclient12.2-sqlplus-12.2.0.1.0-1.x86_64.rpm
-#ENV SQLCL sqlcl-18*.zip
-ENV INSTANT_CLIENT oracle-instantclient12.2-basic-12.2.0.1.0-1.x86_64.rpm
-
-WORKDIR /opt/oracle/lib
-ADD ${INSTANT_CLIENT} ${SQLPLUS} ./
-RUN echo "Installing instant client........" && \
-   rpm -ivh ${INSTANT_CLIENT} && \
-   echo "Installing SQL*Plus..........." && \
-   rpm -ivh ${SQLPLUS} && \
-   #unzip ${SQLCL} && \
-   rm ${INSTANT_CLIENT} ${SQLPLUS} && \
-   mkdir -p /opt/oracle/database/wallet && \
-   mkdir -p /opt/oracle/tools/oci
-
-#set env variables
-ENV ORACLE_BASE /opt/oracle/lib/instantclient_12_2
-ENV LD_LIBRARY_PATH /usr/lib/oracle/12.2/client64/lib/:$LD_LIBRARY_PATH
-ENV TNS_ADMIN /opt/oracle/lib/wallet_TWITTER/
-ENV ORACLE_HOME /opt/oracle/lib/instantclient_12_2
-ENV PATH $PATH:/usr/lib/oracle/12.2/client64/bin:/opt/oracle/lib/sqlcl/bin
+RUN echo 'installing requests, cx_Oracle, argparse, simplejson, json' && \
+    pip install requests tweepy simplejson argparse json
 
 # get python application from git repo
-RUN git clone https://github.com/Abdul-Rafae-Mohammed/Real-Time_Twitter-Data-Analysis.git
-RUN mkdir wallet_TWITTER
-COPY ./wallet_TWITTER ./wallet_TWITTER
+RUN git clone https://github.com/Abdul-Rafae-Mohammed/TweetStreamingusingPythonintoOracleDBusingORDS.git
