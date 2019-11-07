@@ -18,7 +18,7 @@ RUN echo "Installing EPEL, python-pip, unzip, libaio, oci_cli, requests, cx_Orac
 
 # install from pip
 RUN echo 'installing requests, cx_Oracle, argparse, simplejson, json' && \
-    pip install requests tweepy simplejson argparse json
+    pip install requests tweepy simplejson argparse
 
 # get python application from git repo
 RUN git clone https://github.com/Abdul-Rafae-Mohammed/TweetStreamingusingPythonintoOracleDBusingORDS.git
