@@ -1,13 +1,13 @@
 
-# Real Time Twitter Sentiment Analysis using Python and Oracle Autonomous Database Deployed using Docker
+# Real Time Twitter Data Streaming using Python and Oracle Autonomous Database Deployed using Docker
 
 Last Updated:<br>February 01, 2019
 </td>
 <td class="td-banner">
-# Twitter real time analysis - Docker + ATP
+# Twitter Real Time Data Streaming - Docker + ATP
 </td></tr><table>
 
-Project to implement real time twitter data analysis using python on Oracle Autonomous Database deployed on Oracle Cloud Infrastructure (OCI) using Docker.
+Project to implement real time twitter data streaming using python on Oracle Autonomous Database deployed on Oracle Cloud Infrastructure (OCI) using Docker.
 
 
 ## Introduction
@@ -34,13 +34,7 @@ What things you need to install the software and how to install them
     * Connect to Oracle Autonomous DB
     * Connect to Twitter Application
     * Collect Real Time Data from Twitter
-    * Normalizing Sensitive Tweets (Mask Sensitive and Racial Slurs from Tweets)
     * Insert data in Real Time into Oracle Autonomous DB
-* notebook
-  * Indian Premier League.json - SQL notebook
-    * Perform Data Analysis and Visualization
-* reset
-  * Real_Time_Twitter_Sentiment_Analysis_Reset.py - drop tables and remove data
 * source
   * Real Time Twitter Data 
 
@@ -48,7 +42,6 @@ What things you need to install the software and how to install them
 * ### Data Source&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: Twitter
 * ### Data Collection and Processing     &nbsp; &nbsp;: Python
 * ### Data Storage                       &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : Oracle Database(Autonomous Transaction Processing) on Oracle Cloud Infrastructure
-* ### Data Visualization/Reporting       &nbsp; &nbsp; &nbsp; &nbsp;: Oracle SQL Notebook
 * ### Application Deployment             &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : Docker 
 
 
@@ -56,6 +49,7 @@ What things you need to install the software and how to install them
 
 ## Steps to Deploy
 
+- Register for a Twitter dev account. You can refer to the following blog for detailed steps : <a href="https://docs.inboundnow.com/guide/create-twitter-application/" target="_blank">Create a Twitter Dev App</a> 
 - Open terminal
 - Move to the folder where you want to download the application.
 - Create a directory for the application
@@ -71,18 +65,18 @@ What things you need to install the software and how to install them
 - Clone the Github Repository
 
   ```
-  git clone https://github.com/Abdul-Rafae-Mohammed/Deploying-Python-App-as-a-Microservice.git
+  git clone https://github.com/Abdul-Rafae-Mohammed/Deploying-Python-TweetStreamingApp-as-a-Microservice.git
   ```
-- Go inside the Deploying-Python-App-as-a-Microservice Directory
+  
+- Go inside the Deploying-Python-TweetStreamingApp-as-a-Microservice Directory
 
   ```
   cd Deploying-Python-App-as-a-Microservice
   ```
+  
 - Make Sure Docker Application on your machine is started.
 
-- unzip your database wallet into the wallet_TWITTER folder present in the current directory.
-
-- Download the Oracle Instant Client Basic and sqlplus package for your Operating System into the current folder.
+- Deploy a Rest Service on the ATP database using which you will persist the data into the ATP Database. For more information on how to do that please refer this <a href="https://abdul-rafae-mohammed.github.io/StepByStepGuideToSetupPythonAppWithOracleATP/?page=Guide100Create_a_RestService_on_ATP.md" target="_blank">step by step guide</a> 
 
 - If you have any existing docker images you can remove it by running the following commands:  
 
@@ -91,6 +85,7 @@ What things you need to install the software and how to install them
 
   docker rmi -f $(docker images -q)
   ```
+  
 - Build the docker image by run the following command 
 
   ```
@@ -105,13 +100,28 @@ What things you need to install the software and how to install them
 
 - Go inside the docker image directory
   ```
-  cd /opt/oracle/lib/Real-Time_Twitter-Data-Analysis/
+  cd TweetStreamingusingPythonintoOracleDBusingORDS
   ```
 
+- Add your twitter app credentials you created earlier, the Rest Service you created earlier and the keyword based on which you want to collect tweets on in the configuration file.
+
+  ```
+  vi config_rest.txt
+  ```
+  
+  ```
+  keyword=ipl
+  consumer_key=P5SFPo.................NaRkB
+  consumer_secret=k7G.................KIkXIcdwydOLM8M
+  access_token=8342334757797.....................4M
+  access_secret=QPfmfzWb.........................uj
+  rest_endpoint=http://xxx.xxx.xxx.xxx:xxxx/ords/xxxx/twitter/demo
+  ```
+  
 - Run python app
 
   ```
-  python Real_Time_Twitter_Sentiment_Analysis.py
+  python Real_Time_TweetStreaming_using_Rest_Service.py config_rest.txt
   ```
 
 - Verify data in your database by using logging in using SSH in the terminal or using SQL Developer.
